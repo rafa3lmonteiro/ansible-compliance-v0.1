@@ -1,4 +1,3 @@
 # ansible jobs
-#
-# Rafael Monteiro
-# 
+
+Examples of work and studies in Ansible
