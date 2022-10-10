@@ -17,7 +17,7 @@
 
   - name: Including file "include-compliance.conf" in /etc/rsyslog.d/ directory if necessary 
     copy:
-      src: /home/devops/ansible/house/Logging/include-csd-rsyslog.conf 
+      src: /home/devops/ansible/voya/Logging/include-csd-rsyslog.conf 
       dest: /etc/rsyslog.d/include-csd-rsyslog.conf
       mode: '0644'
       owner: root

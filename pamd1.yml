@@ -1,0 +1,60 @@
+---
+- name: Verifying a default no access policy in /etc/pam.d/other
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying file /etc/pam.d/other
+      stat:
+        path: /etc/pam.d/other
+      register: file_other
+
+    - name: Print if file /etc/pam.d/other exist
+      debug: 
+        msg: "File /etc/pam.d/other exists: {{ file_other.stat.exists }}"
+
+    - name: Reading file /etc/pam.d/other for line "auth"
+      shell: grep ^auth /etc/pam.d/other
+      ignore_errors: true
+      register: grep_auth
+      when: file_other.stat.exists == True 
+
+    - name: Reading file /etc/pam.d/other for line "account"
+      shell: grep ^account /etc/pam.d/other
+      ignore_errors: true
+      register: grep_account
+      when: file_other.stat.exists == True
+
+    - name: Testing configs access policy "auth" in /etc/pam.d/other
+      debug:
+        msg: "Line auth in /etc/pam.d/other -> OK"
+      ignore_errors: true
+      when: 
+        - '"required" in grep_auth.stdout' 
+        - '"pam_deny.so" in grep_auth.stdout'
+
+    - name: Testing configs access policy "account" in /etc/pam.d/other
+      debug:
+        msg: "Line account in /etc/pam.d/other -> OK"
+      ignore_errors: true
+      when: 
+        - '"required" in grep_account.stdout' 
+        - '"pam_deny.so" in grep_account.stdout'
+
+    - name: Creating ansible log HCFindings 
+      shell: echo "$(date +%b" "%d" "%T) - Problem -> SystemSettings-example.yml - {{ inventory_hostname }} - File /etc/pam.d/other is out of compliance" >> /var/log/compliance.log
+      delegate_to: localhost
+      when:  (file_other.stat.exists == False) or
+             ('required' not in grep_auth.stdout) or
+             ('pam_deny.so' not in grep_auth.stdout) or
+             ('required' not in grep_account.stdout) or
+             ('pam_deny.so' not in grep_account.stdout)
+
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+...
