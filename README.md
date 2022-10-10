@@ -1,3 +1,3 @@
-# ansible jobs
+# Ansible
 
-Examples of work and studies in Ansible
+Repository for Ansible projects and studies
