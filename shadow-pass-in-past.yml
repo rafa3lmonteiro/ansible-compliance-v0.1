@@ -1,0 +1,29 @@
+---
+- name: Ensure all users last password change date is in the past
+  hosts: lab
+  gather_facts: false
+  become: true
+
+  tasks:
+  
+  - name: Retrieving curent date
+    shell: EE=$(date +%s) ; let ED=$EE/86400 ; echo "$ED"
+    register: days_since_epoch 
+
+  - name: Seting vars
+    command: cat /etc/shadow
+    register: shadow_content
+
+  - name: Printing shell output
+    shell: "usermod -s $(which nologin) -L {{ item.split(':')[0] }}"
+    with_items: "{{ shadow_content.stdout_lines }}"
+    when: item.split(':')[2] | int > days_since_epoch.stdout | int
+
+  - name: Creating ansible log with user information
+    shell: echo " Problem -> {{ inventory_hostname }} - user {{ item.split(':')[0] }} is out of compliance and is being locked out cause password change date is in the past. It is recommended to remove the user manually " >> /var/log/compliance.log
+    delegate_to: localhost
+    with_items: "{{ shadow_content.stdout_lines }}"
+    when: item.split(':')[2] | int > days_since_epoch.stdout | int
+   
+
+...
