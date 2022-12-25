@@ -49,7 +49,7 @@
 2022-07-05 16:21:57,341 p=24253 u=devops n=ansible | skipping: [node01] => (item=teste:$6$.wi0E80wme0TmGlh$BqVQf7Y.Vu4zfexqD3mdhvEf..dTA3r3bbqHeRDQ5O9YlLPVKi/wzBs8X1SBOZpF.Axvj3N.v.036DByxQSCQ.:19174:1:90:7:::) 
 2022-07-05 16:21:57,363 p=24253 u=devops n=ansible | skipping: [node01] => (item=devops:$6$6uauXypc6DY0KxcE$F/qs7dmERWlXBkCVWCYHUzTL.R5yH0n.d91ZM9SI2y6NsiQUFIvaiP2m9Ki9mkGnjazMyVYmciYzJRj8jD856.:19178:1:90:7:::) 
 2022-07-05 16:21:57,376 p=24253 u=devops n=ansible | TASK [Backup original file /etc/shadow] ****************************************************************************************************
-2022-07-05 16:21:57,425 p=24253 u=devops n=ansible | fatal: [node01]: FAILED! => {"msg": "The conditional check 'is_above_90 == true' failed. The error was: error while evaluating conditional (is_above_90 == true): 'is_above_90' is undefined\n\nThe error appears to be in '/home/devops/ansible/voya-csd/PasswordRequirements/PasswordRequirements-IZ.1.1.1.2.yml': line 19, column 5, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n  - name: Backup original file /etc/shadow\n    ^ here\n"}
+2022-07-05 16:21:57,425 p=24253 u=devops n=ansible | fatal: [node01]: FAILED! => {"msg": "The conditional check 'is_above_90 == true' failed. The error was: error while evaluating conditional (is_above_90 == true): 'is_above_90' is undefined\n\nThe error appears to be in '/home/devops/ansible/acme-csd/PasswordRequirements/PasswordRequirements-IZ.1.1.1.2.yml': line 19, column 5, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n  - name: Backup original file /etc/shadow\n    ^ here\n"}
 2022-07-05 16:21:57,427 p=24253 u=devops n=ansible | PLAY RECAP *********************************************************************************************************************************
 2022-07-05 16:21:57,427 p=24253 u=devops n=ansible | node01                     : ok=0    changed=0    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0   
 2022-07-05 16:33:50,802 p=25798 u=devops n=ansible | PLAY [Setting password age value to 90 in /etc/shadow] *************************************************************************************
@@ -58,16 +58,16 @@
 2022-07-05 16:33:50,877 p=25798 u=devops n=ansible | PLAY RECAP *********************************************************************************************************************************
 2022-07-05 16:33:50,878 p=25798 u=devops n=ansible | node01                     : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
 2022-07-05 16:37:00,560 p=26108 u=devops n=ansible | ansible-playbook 2.9.27
-  config file = /home/devops/ansible/voya-csd/PasswordRequirements/ansible.cfg
+  config file = /home/devops/ansible/acme-csd/PasswordRequirements/ansible.cfg
   configured module search path = ['/home/devops/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = /usr/lib/python3.6/site-packages/ansible
   executable location = /usr/bin/ansible-playbook
   python version = 3.6.8 (default, Sep  9 2021, 07:49:02) [GCC 8.5.0 20210514 (Red Hat 8.5.0-3)]
-2022-07-05 16:37:00,561 p=26108 u=devops n=ansible | Using /home/devops/ansible/voya-csd/PasswordRequirements/ansible.cfg as config file
-2022-07-05 16:37:00,567 p=26108 u=devops n=ansible | host_list declined parsing /home/devops/ansible/voya-csd/PasswordRequirements/inventory as it did not pass its verify_file() method
-2022-07-05 16:37:00,567 p=26108 u=devops n=ansible | script declined parsing /home/devops/ansible/voya-csd/PasswordRequirements/inventory as it did not pass its verify_file() method
-2022-07-05 16:37:00,567 p=26108 u=devops n=ansible | auto declined parsing /home/devops/ansible/voya-csd/PasswordRequirements/inventory as it did not pass its verify_file() method
-2022-07-05 16:37:00,569 p=26108 u=devops n=ansible | Parsed /home/devops/ansible/voya-csd/PasswordRequirements/inventory inventory source with ini plugin
+2022-07-05 16:37:00,561 p=26108 u=devops n=ansible | Using /home/devops/ansible/acme-csd/PasswordRequirements/ansible.cfg as config file
+2022-07-05 16:37:00,567 p=26108 u=devops n=ansible | host_list declined parsing /home/devops/ansible/acme-csd/PasswordRequirements/inventory as it did not pass its verify_file() method
+2022-07-05 16:37:00,567 p=26108 u=devops n=ansible | script declined parsing /home/devops/ansible/acme-csd/PasswordRequirements/inventory as it did not pass its verify_file() method
+2022-07-05 16:37:00,567 p=26108 u=devops n=ansible | auto declined parsing /home/devops/ansible/acme-csd/PasswordRequirements/inventory as it did not pass its verify_file() method
+2022-07-05 16:37:00,569 p=26108 u=devops n=ansible | Parsed /home/devops/ansible/acme-csd/PasswordRequirements/inventory inventory source with ini plugin
 2022-07-05 16:37:00,814 p=26108 u=devops n=ansible | Skipping callback 'actionable', as we already have a stdout callback.
 2022-07-05 16:37:00,814 p=26108 u=devops n=ansible | Skipping callback 'counter_enabled', as we already have a stdout callback.
 2022-07-05 16:37:00,814 p=26108 u=devops n=ansible | Skipping callback 'debug', as we already have a stdout callback.
@@ -93,7 +93,7 @@
 }
 2022-07-05 16:37:00,861 p=26108 u=devops n=ansible | PLAY RECAP *********************************************************************************************************************************
 2022-07-05 16:37:00,861 p=26108 u=devops n=ansible | node01                     : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
-2022-07-05 16:47:13,427 p=27683 u=devops n=ansible | Using /home/devops/ansible/voya-csd/PasswordRequirements/ansible.cfg as config file
+2022-07-05 16:47:13,427 p=27683 u=devops n=ansible | Using /home/devops/ansible/acme-csd/PasswordRequirements/ansible.cfg as config file
 2022-07-05 16:47:13,804 p=27683 u=devops n=ansible | PLAY [Setting password age value to 90 in /etc/shadow] *************************************************************************************
 2022-07-05 16:47:13,815 p=27683 u=devops n=ansible | TASK [Seting vars] *************************************************************************************************************************
 2022-07-05 16:47:13,960 p=27683 u=devops n=ansible | fatal: [node01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\n@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @\r\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\nPermissions 0775 for '/home/devops/.ssh/id_ed25519' are too open.\r\nIt is required that your private key files are NOT accessible by others.\r\nThis private key will be ignored.\r\nLoad key \"/home/devops/.ssh/id_ed25519\": bad permissions\r\ndevops@node01: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).", "unreachable": true}
@@ -111,7 +111,7 @@
     "changed": false,
     "ping": "pong"
 }
-2022-07-05 16:49:03,163 p=27968 u=devops n=ansible | Using /home/devops/ansible/voya-csd/PasswordRequirements/ansible.cfg as config file
+2022-07-05 16:49:03,163 p=27968 u=devops n=ansible | Using /home/devops/ansible/acme-csd/PasswordRequirements/ansible.cfg as config file
 2022-07-05 16:49:03,413 p=27968 u=devops n=ansible | PLAY [Setting password age value to 90 in /etc/shadow] *************************************************************************************
 2022-07-05 16:49:03,422 p=27968 u=devops n=ansible | TASK [Seting vars] *************************************************************************************************************************
 2022-07-05 16:49:04,164 p=27968 u=devops n=ansible | changed: [node01] => {"ansible_facts": {"discovered_interpreter_python": "/usr/libexec/platform-python"}, "changed": true, "cmd": ["cat", "/etc/shadow"], "delta": "0:00:00.008635", "end": "2022-07-05 16:49:03.653894", "rc": 0, "start": "2022-07-05 16:49:03.645259", "stderr": "", "stderr_lines": [], "stdout": "root:$6$S7CTAu1KAcstUraB$AqNduOlYiwSSiGa6T6GHb273peHM75RK1HvtYFx2AnZ8EsHkYdmniqBVMiaYc2LWEXuCULepsk.2LwtLXABKZ.:19155:0:99999:7:::\nbin:*:18397:0:99999:7:::\ndaemon:*:18397:0:99999:7:::\nadm:*:18397:0:99999:7:::\nlp:*:18397:0:99999:7:::\nsync:*:18397:0:99999:7:::\nshutdown:*:18397:0:99999:7:::\nhalt:*:18397:0:99999:7:::\nmail:*:18397:0:99999:7:::\noperator:*:18397:0:99999:7:::\ngames:*:18397:0:99999:7:::\nftp:*:18397:0:99999:7:::\nnobody:*:18397:0:99999:7:::\ndbus:!!:19155::::::\nsystemd-coredump:!!:19155::::::\nsystemd-resolve:!!:19155::::::\ntss:!!:19155::::::\npolkitd:!!:19155::::::\nunbound:!!:19155::::::\nlibstoragemgmt:!!:19155::::::\nsetroubleshoot:!!:19155::::::\ncockpit-ws:!!:19155::::::\ncockpit-wsinstance:!!:19155::::::\nsssd:!!:19155::::::\nclevis:!!:19155::::::\nchrony:!!:19155::::::\nsshd:!!:19155::::::\ntcpdump:!!:19155::::::\napache:!!:19163::::::\ndevops:$6$eO6DvxJc3EXbhVR.$A.tmk02rLNNJLYY2KIVDfVWaAPbyd2E0Ucz9oS5INj88eRmTrYd3ntouOVpbEenVwG3PFyW8NzzKD3Bi7doWq/:19178:0:99999:7:::", "stdout_lines": ["root:$6$S7CTAu1KAcstUraB$AqNduOlYiwSSiGa6T6GHb273peHM75RK1HvtYFx2AnZ8EsHkYdmniqBVMiaYc2LWEXuCULepsk.2LwtLXABKZ.:19155:0:99999:7:::", "bin:*:18397:0:99999:7:::", "daemon:*:18397:0:99999:7:::", "adm:*:18397:0:99999:7:::", "lp:*:18397:0:99999:7:::", "sync:*:18397:0:99999:7:::", "shutdown:*:18397:0:99999:7:::", "halt:*:18397:0:99999:7:::", "mail:*:18397:0:99999:7:::", "operator:*:18397:0:99999:7:::", "games:*:18397:0:99999:7:::", "ftp:*:18397:0:99999:7:::", "nobody:*:18397:0:99999:7:::", "dbus:!!:19155::::::", "systemd-coredump:!!:19155::::::", "systemd-resolve:!!:19155::::::", "tss:!!:19155::::::", "polkitd:!!:19155::::::", "unbound:!!:19155::::::", "libstoragemgmt:!!:19155::::::", "setroubleshoot:!!:19155::::::", "cockpit-ws:!!:19155::::::", "cockpit-wsinstance:!!:19155::::::", "sssd:!!:19155::::::", "clevis:!!:19155::::::", "chrony:!!:19155::::::", "sshd:!!:19155::::::", "tcpdump:!!:19155::::::", "apache:!!:19163::::::", "devops:$6$eO6DvxJc3EXbhVR.$A.tmk02rLNNJLYY2KIVDfVWaAPbyd2E0Ucz9oS5INj88eRmTrYd3ntouOVpbEenVwG3PFyW8NzzKD3Bi7doWq/:19178:0:99999:7:::"]}
@@ -718,7 +718,7 @@
     }
 }
 2022-07-15 16:32:50,543 p=25505 u=devops n=ansible | TASK [Backup original file /etc/shadow] ***************************************************************************************************************************************************************************
-2022-07-15 16:32:50,593 p=25505 u=devops n=ansible | fatal: [node01]: FAILED! => {"msg": "The conditional check 'is_above_90 == true' failed. The error was: error while evaluating conditional (is_above_90 == true): 'is_above_90' is undefined\n\nThe error appears to be in '/home/devops/ansible/voya-csd/PasswordRequirements/PasswordRequirements-IZ.1.1.1.2.yml': line 29, column 5, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n  - name: Backup original file /etc/shadow\n    ^ here\n"}
+2022-07-15 16:32:50,593 p=25505 u=devops n=ansible | fatal: [node01]: FAILED! => {"msg": "The conditional check 'is_above_90 == true' failed. The error was: error while evaluating conditional (is_above_90 == true): 'is_above_90' is undefined\n\nThe error appears to be in '/home/devops/ansible/acme-csd/PasswordRequirements/PasswordRequirements-IZ.1.1.1.2.yml': line 29, column 5, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n  - name: Backup original file /etc/shadow\n    ^ here\n"}
 2022-07-15 16:32:50,594 p=25505 u=devops n=ansible | PLAY RECAP ********************************************************************************************************************************************************************************************************
 2022-07-15 16:32:50,595 p=25505 u=devops n=ansible | node01                     : ok=2    changed=1    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0   
 2022-07-15 16:45:11,743 p=27143 u=devops n=ansible | PLAY [Setting password age value to 90 in /etc/shadow] ********************************************************************************************
@@ -809,7 +809,7 @@
 2022-07-19 15:30:32,119 p=77380 u=rafael n=ansible |  [ERROR]: User interrupted execution
 
 2022-08-05 19:47:04,884 p=2062 u=ansible_user n=ansible | ERROR! the playbook: PasswordRequirements/PasswordRequirements-IZ.1.1.2.0.yml could not be found
-2022-08-09 18:43:01,061 p=4759 u=ansible_user n=ansible | [WARNING]: Unable to parse /home/ansible_user/ansible/voya/PasswordRequirements/inv.ini as an inventory source
+2022-08-09 18:43:01,061 p=4759 u=ansible_user n=ansible | [WARNING]: Unable to parse /home/ansible_user/ansible/acme/PasswordRequirements/inv.ini as an inventory source
 
 2022-08-09 18:43:01,061 p=4759 u=ansible_user n=ansible | [WARNING]: No inventory was parsed, only implicit localhost is available
 
@@ -858,7 +858,7 @@ match 'all'
 2022-08-12 19:25:21,680 p=1879 u=ansible_user n=ansible | fatal: [node01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).", "unreachable": true}
 2022-08-12 19:25:21,681 p=1879 u=ansible_user n=ansible | PLAY RECAP **********************************************************************************************************
 2022-08-12 19:25:21,681 p=1879 u=ansible_user n=ansible | node01                     : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
-2022-08-12 19:25:55,920 p=1894 u=ansible_user n=ansible | [WARNING]: Unable to parse /home/ansible_user/ansible/voya/PasswordRequirements/inv.ini as an inventory source
+2022-08-12 19:25:55,920 p=1894 u=ansible_user n=ansible | [WARNING]: Unable to parse /home/ansible_user/ansible/acme/PasswordRequirements/inv.ini as an inventory source
 
 2022-08-12 19:25:55,921 p=1894 u=ansible_user n=ansible | [WARNING]: No inventory was parsed, only implicit localhost is available
 
@@ -873,7 +873,7 @@ JSON: No JSON object could be decoded
 Syntax Error while loading YAML.
   did not find expected '-' indicator
 
-The error appears to be in '/home/ansible_user/ansible/voya/PasswordRequirements/PasswordRequirements-IZ.1.1.3.2.yml': line 12, column 2, but may
+The error appears to be in '/home/ansible_user/ansible/acme/PasswordRequirements/PasswordRequirements-IZ.1.1.3.2.yml': line 12, column 2, but may
 be elsewhere in the file depending on the exact syntax problem.
 
 The offending line appears to be:
@@ -888,7 +888,7 @@ JSON: No JSON object could be decoded
 Syntax Error while loading YAML.
   did not find expected '-' indicator
 
-The error appears to be in '/home/ansible_user/ansible/voya/PasswordRequirements/PasswordRequirements-IZ.1.1.3.2.yml': line 12, column 2, but may
+The error appears to be in '/home/ansible_user/ansible/acme/PasswordRequirements/PasswordRequirements-IZ.1.1.3.2.yml': line 12, column 2, but may
 be elsewhere in the file depending on the exact syntax problem.
 
 The offending line appears to be:
@@ -899,7 +899,7 @@ The offending line appears to be:
 
 2022-08-23 19:39:44,600 p=1821 u=ansible_user n=ansible | ERROR! unexpected parameter type in action: <type 'bool'>
 
-The error appears to be in '/home/ansible_user/ansible/voya/PasswordRequirements/PasswordRequirements-IZ.1.1.3.2.yml': line 12, column 5, but may
+The error appears to be in '/home/ansible_user/ansible/acme/PasswordRequirements/PasswordRequirements-IZ.1.1.3.2.yml': line 12, column 5, but may
 be elsewhere in the file depending on the exact syntax problem.
 
 The offending line appears to be:
