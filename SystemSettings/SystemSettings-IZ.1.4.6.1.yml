@@ -1,0 +1,40 @@
+---
+- name: Set systems to terminate a session after a period of inactivity, script /etc/profile.d/IBMsinit.sh 
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying if /etc/profile.d/IBMsinit.sh exists
+      stat: 
+        path: /etc/profile.d/IBMsinit.sh
+      register: file_results
+    
+    - name: Verifying if /etc/profile.local exists on server
+      stat: 
+        path: /etc/profile.local
+      register: profile_results
+    
+    - name: Verifying if /etc/profile.d/IBMsinit.sh is called in /etc/profile.local
+      shell: "if grep -qi /etc/profile.d/IBMsinit.sh /etc/profile.local; then echo True; else echo False; fi;"
+      register: call_results
+      when: profile_results.stat.exists == True
+
+    - name: Creating ansible log HCFindings if /etc/profile.local exists and not call IBMsinit.sh
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.1.yml - {{ inventory_hostname }} - File /etc/profile.local exists and doesn't call the script /etc/profile.d/IBMsinit.sh" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 'call_results.stdout == "False"'
+
+    - name: Creating ansible log HCFindings if /etc/profile.d/IBMsinit.sh not exists
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.1.yml - {{ inventory_hostname }} - Script file /etc/profile.d/IBMsinit.sh not exists" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: file_results.stat.exists == False
+
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

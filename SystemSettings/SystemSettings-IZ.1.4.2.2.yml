@@ -1,0 +1,23 @@
+---
+- name: Verifying default group for the root account is GID 0
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Reading group of root user in /etc/passwd
+      shell: "grep ^root /etc/passwd |awk -F: '{print $4}'"
+      register: group_root
+      
+    - name: Printing log HCFindings if group root is out of compliance
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.2.2.yml - {{ inventory_hostname }} - The group of root user is not equal to 0 in the /etc/passwd file" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: group_root.stdout |int != 0 
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

@@ -1,0 +1,28 @@
+---
+- name: Verifying Vsftpd is installed and correct id root in user files
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying if Vsftpd is installed
+      shell: "if systemctl list-unit-files |grep -q vsftpd.service; then echo true; else echo false; fi;" 
+      register: service_exists
+
+    - name: Verifying if root id exist in file "/etc/vsftpd/ftpusers" 
+      shell: "if grep -q root /etc/vsftpd/ftpusers; then echo true; else echo false; fi;"
+      register: ftpusers_id
+      when: 'service_exists.stdout == "true"'
+
+    - name: Printing log HCFindings if Vsftpd is out of compliance
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.2.1.yml - {{ inventory_hostname }} - Vsftpd exists but the file /etc/vsftpd/ftpusers is out of compliance cause root not exist in file" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 'ftpusers_id.stdout == "false"'   
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

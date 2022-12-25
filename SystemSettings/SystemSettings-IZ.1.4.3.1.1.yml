@@ -1,0 +1,23 @@
+---
+- name: Ensure SELinux is installed
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying if SELinux is installed in the system
+      shell: "if rpm -qa |grep ^selinux; then echo true; else echo false; fi;"
+      register: selinux_results
+
+    - name: Printing log HCFindings if SELinux is not installed
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.2.2.yml - {{ inventory_hostname }} - SELinux is not installed in the system" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 'selinux_results.stdout == "false"'
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

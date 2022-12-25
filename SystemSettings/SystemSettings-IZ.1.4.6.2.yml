@@ -1,0 +1,50 @@
+---
+- name: Set systems to terminate a session after a period of inactivity in support, script /etc/profile.d/IBMsinit.csh 
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying if tcsh is installed 
+      shell: "if rpm -qa |grep -qi tcsh; then echo True; else echo False; fi;"
+      register: tcsh_installed
+
+    - name: Verifying if /etc/csh.login.local exists
+      stat: 
+         path: /etc/csh.login.local
+      register: file_csh_local
+      when: 'tcsh_installed.stdout == "True"'
+
+    - name: Verifying if /etc/profile.d/IBMsinit.csh exists
+      stat: 
+         path: /etc/profile.d/IBMsinit.csh
+      register: ibmsinit_results
+      when: 'tcsh_installed.stdout == "True"'
+    
+    - name: Verifying if /etc/profile.d/IBMsinit.csh is called in /etc/csh.login.local
+      shell: "if grep -qi /etc/profile.d/IBMsinit.csh /etc/csh.login.local; then echo True; else echo False; fi;"
+      ignore_errors: true
+      register: call_results
+      when: file_csh_local.stat.exists == True
+
+    - name: Creating ansible log HCFindings if /etc/profile.d/IBMsinit.csh not exists
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.2.yml - {{ inventory_hostname }} - Script file /etc/profile.d/IBMsinit.csh not exists" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 
+        - 'tcsh_installed.stdout == "True"'
+        - ibmsinit_results.stat.exists == False
+
+    - name: Creating ansible log HCFindings if /etc/csh.login.local exists and not call IBMsinit.csh
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.2.yml - {{ inventory_hostname }} - File /etc/csh.login.local exists and doesn't call the script /etc/profile.d/IBMsinit.csh" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 
+        - file_csh_local.stat.exists == True
+        - 'call_results.stdout == "False"'
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

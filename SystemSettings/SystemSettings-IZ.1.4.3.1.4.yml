@@ -1,0 +1,25 @@
+---
+- name: Ensure SELinuxtype of Minimum is not used
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying current mode of SELINUXTYPE
+      shell: grep ^SELINUXTYPE /etc/selinux/config  |awk -F= '{print $2}'
+      register: selinuxtype
+
+    - name: Printing log HCFindings if SELINUXTYPE is not in Targeted or MLS
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.3.1.4.yml - {{ inventory_hostname }} - SELINUXTYPE not in Targeted or MLS, or not enabled in the system" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 
+        - selinuxtype.stdout != "targeted" 
+        - selinuxtype.stdout != "mls"
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

@@ -1,0 +1,25 @@
+---
+- name: Set systems to terminate a session after a period of inactivity. 
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying if TMOUT is seted correctly in IBMsinit.sh
+      shell: "if grep -q ^TMOUT=21600 /etc/profile.d/IBMsinit.sh; then echo True; else echo False; fi;"
+      register: test_results
+
+    - name: Creating ansible log HCFindings 
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.3.yml - {{ inventory_hostname }} - The file IBMsinit.sh not exist in /etc/profile.d/ or Timeout session is not set to TMOUT=21600" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 'test_results.stdout == "False"'
+        
+  
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

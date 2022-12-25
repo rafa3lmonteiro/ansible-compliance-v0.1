@@ -1,0 +1,23 @@
+---
+- name: Ensure auditd service is enabled
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying service auditd is enabled and running
+      shell: "if systemctl status auditd |grep -q running; then echo true; else echo false; fi;"
+      register: auditd_results
+
+    - name: Printing log HCFindings if Auditd is not running
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.3.3.1.yml - {{ inventory_hostname }} - Service Auditd is not Running" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: auditd_results.stdout == "false" 
+        
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

@@ -1,0 +1,26 @@
+---
+- name: Ensure the SELinux state is enforcing or permissive, per domain.
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Verifying current mode of SELinux
+      shell: sestatus | grep 'Current mode' |awk '{print $3}'
+      register: current_mode
+
+    - name: Printing log HCFindings if SELinux is not in Permissive or Enforcing
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.3.1.2.yml - {{ inventory_hostname }} - SELinux current mode not in Permissive or Enforcing, or not enabled in the system" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 
+        - current_mode.stdout != "permissive" 
+        - current_mode.stdout != "enforcing"
+
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...

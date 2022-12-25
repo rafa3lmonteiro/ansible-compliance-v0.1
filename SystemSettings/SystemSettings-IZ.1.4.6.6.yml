@@ -1,0 +1,50 @@
+---
+- name: Verifying standard login shells for the system users 
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Block of tasks for CentOS and Red Hat Linux
+    block:
+
+    - name: Reading /etc/passwd file 
+      shell: cat /etc/passwd |egrep -v '^(sync|shutdown|halt)'
+      register: passwd_cotent
+
+    - name: Reading login shell of sync, shutdown and halt
+      shell: cat /etc/passwd |egrep '^(sync|shutdown|halt)'
+      register: system_users
+
+    - name: Printing log HCFindings if users login shell is not compliance
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.6.yml - {{ inventory_hostname }} - user {{ item.split(':')[0] }} is not using a shell according to compliance" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      with_items: "{{ passwd_cotent.stdout_lines }}"
+      when:  
+        - item.split(':')[6] != '/bin/csh' 
+        - item.split(':')[6] != '/bin/tcsh' 
+        - item.split(':')[6] != '/bin/sh' 
+        - item.split(':')[6] != '/bin/ksh' 
+        - item.split(':')[6] != '/bin/bash'
+        - item.split(':')[6] != '/bin/sh'
+        - item.split(':')[6] != '/bin/false' 
+        - item.split(':')[6] != '/sbin/nologin' 
+        - item.split(':')[6] != '/usr/bin/sh'
+        - item.split(':')[6] != '/usr/bin/bash'
+        - item.split(':')[6] != '/usr/sbin/nologin'
+        - item.split(':')[6] != '/bin/ksh93'
+        - item.split(':')[6] != '/usr/bin/ksh93'
+          
+    - name: Printing log HCFindings if users (sync, shutdown and halt) login shell is not compliance
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.6.yml - {{ inventory_hostname }} - user {{ item.split(':')[0] }} is not using a shell according to compliance" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      with_items: "{{ system_users.stdout_lines }}"
+      when:  
+        - item.split(':')[6] != '/bin/sync' 
+        - item.split(':')[6] != '/sbin/shutdown' 
+        - item.split(':')[6] != '/sbin/halt' 
+
+    when: ansible_facts['distribution'] == 'CentOS' or
+          ansible_facts['distribution'] == 'RedHat'
+          
+...
