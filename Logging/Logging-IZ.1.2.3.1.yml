@@ -1,0 +1,22 @@
+---
+- name: File "/var/log/messages" must exist
+  hosts: lab
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Verifying file "/var/log/messages"
+    stat: 
+      path: /var/log/messages
+    register: file_messages
+ 
+  - name: Printing result   
+    debug: 
+      msg: "File /var/log/messages exists: {{ file_messages.stat.exists }} "
+     
+  - name: Creating log HCFindings
+    delegate_to: localhost
+    shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.3.1.yml - {{ inventory_hostname }} - File /var/log/messages does not exist" >> /var/log/HCFindings.log
+    when: file_messages.stat.exists == False 
+
+...

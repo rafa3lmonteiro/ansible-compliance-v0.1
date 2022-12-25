@@ -1,0 +1,22 @@
+---
+- name: Login success or failure, logs to specified files.
+  hosts: lab
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Verify file /var/log/wtmp
+    stat:
+      path: /var/log/wtmp
+    register: file_wtmp
+
+  - name: Print results
+    debug: 
+      msg: "File /var/log/wtmp exists: {{ file_wtmp.stat.exists }}" 
+
+  - name: Creating ansible log HCFindings 
+    shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.2.yml - {{ inventory_hostname }} - File /var/log/wtmp does not exist" >> /var/log/HCFindings.log
+    delegate_to: localhost
+    when: file_wtmp.stat.exists == False
+
+...

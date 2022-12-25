@@ -1,0 +1,19 @@
+---
+- name: Ensure Rsyslog is enabled
+  hosts: lab
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Start service rsyslog, if not started 
+    ansible.builtin.service:
+      name: rsyslog
+      state: started  
+      enabled: yes
+    register: service_results 
+
+  - name: Printing service status of rsyslog
+    debug:
+      msg: "The service is: {{ service_results.state }}"
+
+...

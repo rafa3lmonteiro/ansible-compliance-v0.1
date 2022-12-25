@@ -1,0 +1,38 @@
+---
+- name: Service NTPD must be running.
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Creating a block tasks for Red Hat Linux
+    block:
+
+    - name: Verify status ntpd is running
+      shell: systemctl status ntpd | grep running 
+      ignore_errors: true
+      register: ntpd_status
+
+    - name: Printing service status of ntpd
+      debug:
+        msg: "{{ ntpd_status.stdout.split('\n') }}"
+      when: ntpd_status.rc == 0 
+
+    - name: Verify server pool
+      shell: cat /etc/ntp.conf | grep restrict 
+      ignore_errors: true
+      register: ntp_restrict_status
+
+    - name: Printing service status of ntp_restrict
+      debug:
+        msg: "{{ ntp_restrict_status.stdout.split('\n') }}"
+      when: ntp_restrict_status.rc == 0 
+
+    - name: Creating ansible log HCFindings 
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.4.yml - {{ inventory_hostname }} - ntpd are not active on the system" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: ntpd_status.rc != 0
+
+    when: ansible_facts['distribution'] == 'CentOS'
+
+...

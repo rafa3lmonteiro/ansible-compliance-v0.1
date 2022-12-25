@@ -1,0 +1,47 @@
+---
+- name: Service CHRONYD must be running.
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Creating a block tasks for Red Hat Linux
+    block:
+
+    - name: Verify status chronyd is running
+      shell: systemctl status chronyd | grep running 
+      ignore_errors: true
+      register: chronyd_status
+
+    - name: Printing service status of chronyd
+      debug:
+        msg: "{{ chronyd_status.stdout.split('\n') }}"
+      when: chronyd_status.rc == 0 
+
+    - name: Verify Chrony PS
+      shell: ps -elf | grep chrony | head -n 1
+      ignore_errors: true
+      register: chrony_ps_results
+      when: chronyd_status.rc == 0 
+
+    - name: Printing service status of chrony PS
+      debug:
+        msg: "{{ chrony_ps_results.stdout.split('\n') }}"
+      when: chronyd_status.rc == 0 
+
+    - name:  Verifing ntp service status. Writing results in the log if needed.
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.3.yml - {{ inventory_hostname }} - chronyd are not active on the system" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: chronyd_status.rc != 0
+
+
+    - name:  Verifying ntp service status and the user the service is running as. Writing results in the HCFindings log if needed.
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.3.yml - {{ inventory_hostname }} - chronyd is active, however, the processes are not running as chrony user / group" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 
+        - chronyd_status.rc == 0
+        - "'chrony:chrony' not in chrony_ps_results.stdout"
+
+    when: ansible_facts['distribution'] == 'CentOS'
+
+...

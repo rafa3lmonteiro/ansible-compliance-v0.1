@@ -1,0 +1,38 @@
+---
+- name: Service CHRONYD must be running.
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Creating a block tasks for Red Hat Linux
+    block:
+
+    - name: Verify status chronyd is running
+      shell: systemctl status chronyd | grep running 
+      ignore_errors: true
+      register: chronyd_status
+
+    - name: Printing service status of chronyd
+      debug:
+        msg: "{{ chronyd_status.stdout.split('\n') }}"
+      when: chronyd_status.rc == 0 
+
+    - name: Verify server pool
+      shell: cat /etc/chrony.conf | grep pool 
+      ignore_errors: true
+      register: chronyd_pool_status
+
+    - name: Printing service status of chronyd_pool
+      debug:
+        msg: "{{ chronyd_pool_status.stdout.split('\n') }}"
+      when: chronyd_pool_status.rc == 0 
+
+    - name: Creating ansible log HCFindings 
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.2.yml - {{ inventory_hostname }} - chronyd are not active on the system" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: chronyd_status.rc != 0
+
+    when: ansible_facts['distribution'] == 'CentOS'
+
+...

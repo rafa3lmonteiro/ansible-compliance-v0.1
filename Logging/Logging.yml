@@ -1,0 +1,14 @@
+---
+- name: <playbook name>
+  hosts: 
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Backup original file <file name>
+    #    shell: /bin/cp -p /etc/<file name> /etc/<file name>_bkp_csd_$(date +%F-%T)
+
+  - name: task1
+    # start your tasks here
+       
+...

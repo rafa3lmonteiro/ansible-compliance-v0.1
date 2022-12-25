@@ -1,0 +1,21 @@
+---
+- name: Login success or failure, logs to specified files.
+  hosts: lab
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Verify file /var/log/secure
+    stat:
+      path: /var/log/secure
+    register: file_secure
+
+  - name: Print results
+    debug: 
+      msg: "File /var/log/secure exists: {{ file_secure.stat.exists }}" 
+
+  - name: Creating ansible log HCFindings 
+    shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.5.yml - {{ inventory_hostname }} - File /var/log/secure does not exist" >> /var/log/HCFindings.log
+    delegate_to: localhost
+    when: file_secure.stat.exists == False
+...

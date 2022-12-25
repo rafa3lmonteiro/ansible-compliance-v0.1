@@ -1,0 +1,47 @@
+---
+- name: Service NTPD must be running.
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Creating a block tasks for Red Hat Linux
+    block:
+
+    - name: Verify status ntpd is running
+      shell: systemctl status ntpd | grep running 
+      ignore_errors: true
+      register: ntpd_status
+
+    - name: Printing service status of ntpd
+      debug:
+        msg: "{{ ntpd_status.stdout.split('\n') }}"
+      when: ntpd_status.rc == 0 
+
+    - name: Verify user and group
+      shell: ps -elf | grep ntp | head -n 1
+      ignore_errors: true
+      register: ntp_ps_status
+      when: ntpd_status.rc == 0
+
+    - name: Printing service status of ntp_ps
+      debug:
+        msg: "{{ ntp_ps_status.stdout.split('\n') }}"
+      when: ntpd_status.rc == 0
+      
+
+    - name: Verifying ntp service status. Writing results in the log if needed.
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.5.yml - {{ inventory_hostname }} - ntpd are not active on the system" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: ntpd_status.rc != 0
+
+    - name: Verifying ntp service status and the user the service is running as. Writing results in the HCFindings log if needed. 
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.5.yml - {{ inventory_hostname }} - ntpd is active, however, the processes are not running as ntp user / group" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 
+        - ntpd_status.rc == 0
+        - "'ntp:ntp' not in ntp_ps_status.stdout"
+
+    when: ansible_facts['distribution'] == 'CentOS'
+
+...

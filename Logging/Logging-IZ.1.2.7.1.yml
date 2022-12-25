@@ -1,0 +1,40 @@
+---
+- name: Service NTPD or CHRONYD must be running.
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Creating a block tasks for Red Hat Linux
+    block:
+
+    - name: Verify status ntpd is running
+      shell: systemctl status ntpd | grep running 
+      ignore_errors: true
+      register: ntpd_status
+
+    - name: Verify status chronyd is running
+      shell: systemctl status chronyd | grep running 
+      ignore_errors: true
+      register: chronyd_status
+
+    - name: Printing service status of ntpd
+      debug:
+        msg: "{{ ntpd_status.stdout.split('\n') }}"
+      when: ntpd_status.rc == 0 
+
+    - name: Printing service status of chronyd
+      debug:
+        msg: "{{ chronyd_status.stdout.split('\n') }}"
+      when: chronyd_status.rc == 0 
+
+    - name: Creating ansible log HCFindings 
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.1.yml - {{ inventory_hostname }} - ntpd and chronyd are not active on the system" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: 
+        - ntpd_status.rc != 0  
+        - chronyd_status.rc != 0
+
+    when: ansible_facts['distribution'] == 'CentOS'
+
+...

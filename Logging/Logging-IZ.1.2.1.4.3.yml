@@ -1,0 +1,24 @@
+---
+- name: File log "secure" with 600 user permission
+  hosts: lab
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Setting file permission
+    file: 
+      path: /var/log/secure 
+      owner: root
+      group: root
+      mode: '0600' 
+
+  - name: Verifying file stat /var/log/secure
+    stat:
+      path: /var/log/secure 
+    register: file_secure
+
+  - name: Printing file permission /var/log/secure   
+    debug:
+      msg: "The permission file is: {{ file_secure.stat.mode }}"
+
+...

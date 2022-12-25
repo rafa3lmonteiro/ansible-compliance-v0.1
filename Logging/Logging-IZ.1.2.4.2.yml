@@ -1,0 +1,27 @@
+---
+- name: Must exists file tallylog.
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Creating a block tasks for Red Hat Linux
+    block:
+
+    - name: Verify file /var/log/tallylog
+      stat:
+        path: /var/log/tallylog
+      register: file_tallylog
+
+    - name: Print results
+      debug: 
+        msg: "File /var/log/tallylog exists: {{ file_tallylog.stat.exists }}" 
+
+    - name: Creating ansible log HCFindings 
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.4.2.yml - {{ inventory_hostname }} - File /var/log/tallylog does not exist" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: file_tallylog.stat.exists == False
+
+    when: ansible_facts['distribution'] == 'CentOS'
+
+...

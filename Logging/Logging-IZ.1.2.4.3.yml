@@ -1,0 +1,27 @@
+---
+- name: Must exists directory faillock.
+  hosts: lab
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: Creating a block tasks for Red Hat Linux
+    block:
+
+    - name: Verify directory /var/run/failock
+      stat:
+        path: /var/run/faillock
+      register: directory_faillock
+
+    - name: Print results
+      debug: 
+        msg: "Directory /var/run/faillock exists: {{ directory_faillock.stat.exists }}" 
+
+    - name: Creating ansible log HCFindings 
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.4.3.yml - {{ inventory_hostname }} - Directory /var/run/faillock does not exist" >> /var/log/HCFindings.log
+      delegate_to: localhost
+      when: directory_faillock.stat.exists == False
+
+    when: ansible_facts['distribution'] == 'CentOS'
+
+...
