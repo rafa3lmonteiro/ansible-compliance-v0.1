@@ -1,5 +1,8 @@
+# Playbook to verify systems to terminate a session after a period of inactivity
+# created: Nov/2022
+# Rafael Conte Monteiro
 ---
-- name: Set systems to terminate a session after a period of inactivity in support, script /etc/profile.d/IBMsinit.csh 
+- name: Set systems to terminate a session after a period of inactivity in support, script /etc/profile.d/sinit.csh 
   hosts: lab
   gather_facts: true
   become: true
@@ -18,27 +21,27 @@
       register: file_csh_local
       when: 'tcsh_installed.stdout == "True"'
 
-    - name: Verifying if /etc/profile.d/IBMsinit.csh exists
+    - name: Verifying if /etc/profile.d/sinit.csh exists
       stat: 
-         path: /etc/profile.d/IBMsinit.csh
-      register: ibmsinit_results
+         path: /etc/profile.d/sinit.csh
+      register: sinit_results
       when: 'tcsh_installed.stdout == "True"'
     
-    - name: Verifying if /etc/profile.d/IBMsinit.csh is called in /etc/csh.login.local
-      shell: "if grep -qi /etc/profile.d/IBMsinit.csh /etc/csh.login.local; then echo True; else echo False; fi;"
+    - name: Verifying if /etc/profile.d/sinit.csh is called in /etc/csh.login.local
+      shell: "if grep -qi /etc/profile.d/sinit.csh /etc/csh.login.local; then echo True; else echo False; fi;"
       ignore_errors: true
       register: call_results
       when: file_csh_local.stat.exists == True
 
-    - name: Creating ansible log HCFindings if /etc/profile.d/IBMsinit.csh not exists
-      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.2.yml - {{ inventory_hostname }} - Script file /etc/profile.d/IBMsinit.csh not exists" >> /var/log/HCFindings.log
+    - name: Creating ansible log HCFindings if /etc/profile.d/sinit.csh not exists
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.2.yml - {{ inventory_hostname }} - Script file /etc/profile.d/sinit.csh not exists" >> /var/log/HCFindings.log
       delegate_to: localhost
       when: 
         - 'tcsh_installed.stdout == "True"'
-        - ibmsinit_results.stat.exists == False
+        - sinit_results.stat.exists == False
 
-    - name: Creating ansible log HCFindings if /etc/csh.login.local exists and not call IBMsinit.csh
-      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.2.yml - {{ inventory_hostname }} - File /etc/csh.login.local exists and doesn't call the script /etc/profile.d/IBMsinit.csh" >> /var/log/HCFindings.log
+    - name: Creating ansible log HCFindings if /etc/csh.login.local exists and not call sinit.csh
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> SystemSettings-IZ.1.4.6.2.yml - {{ inventory_hostname }} - File /etc/csh.login.local exists and doesn't call the script /etc/profile.d/sinit.csh" >> /var/log/HCFindings.log
       delegate_to: localhost
       when: 
         - file_csh_local.stat.exists == True

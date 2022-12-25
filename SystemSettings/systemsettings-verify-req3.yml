@@ -1,3 +1,6 @@
+# Playbook to verify if default group for the root account is GID 0
+# created: Nov/2022
+# Rafael Conte Monteiro
 ---
 - name: Verifying default group for the root account is GID 0
   hosts: lab

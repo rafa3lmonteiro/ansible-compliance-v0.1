@@ -1,3 +1,6 @@
+# Playbook to verify if SELinux state is enforcing or permissive, globally.
+# created: Nov/2022
+# Rafael Conte Monteiro
 ---
 - name: Ensure the SELinux state is enforcing or permissive, globally.
   hosts: lab

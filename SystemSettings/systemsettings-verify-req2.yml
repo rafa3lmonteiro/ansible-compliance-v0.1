@@ -1,3 +1,6 @@
+# Playbook to verify if Vsftpd is installed and correct id root in user files
+# created: Nov/2022
+# Rafael Conte Monteiro
 ---
 - name: Verifying Vsftpd is installed and correct id root in user files
   hosts: lab

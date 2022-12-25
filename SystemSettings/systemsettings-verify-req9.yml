@@ -1,3 +1,6 @@
+# Playbook to verify standard login shells for the system users
+# created: Nov/2022
+# Rafael Conte Monteiro
 ---
 - name: Set systems to terminate a session after a period of inactivity, script /etc/profile.d/IBMsinit.sh 
   hosts: lab
