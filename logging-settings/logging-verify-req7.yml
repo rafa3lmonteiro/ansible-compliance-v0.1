@@ -1,3 +1,7 @@
+# Playbook to verify exists directory faillock.
+# created: Oct/2022
+# Rafael Conte Monteiro
+
 ---
 - name: Must exists directory faillock.
   hosts: lab

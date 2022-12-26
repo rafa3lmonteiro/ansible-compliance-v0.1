@@ -1,3 +1,7 @@
+# Playbook to verify if file "/var/log/messages" exists
+# created: Oct/2022
+# Rafael Conte Monteiro
+
 ---
 - name: File "/var/log/messages" must exist
   hosts: lab

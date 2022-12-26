@@ -1,3 +1,7 @@
+# Playbook to verify File log "secure" with 600 user permission
+# created: Oct/2022
+# Rafael Conte Monteiro
+
 ---
 - name: File log "secure" with 600 user permission
   hosts: lab

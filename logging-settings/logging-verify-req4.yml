@@ -1,3 +1,7 @@
+# Playbook to verify Login success or failure, logs to specified files.
+# created: Oct/2022
+# Rafael Conte Monteiro
+
 ---
 - name: Login success or failure, logs to specified files.
   hosts: lab

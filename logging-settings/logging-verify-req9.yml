@@ -1,3 +1,7 @@
+# Playbook to verify if Service NTPD or CHRONYD must be running.
+# created: Oct/2022
+# Rafael Conte Monteiro
+
 ---
 - name: Service NTPD or CHRONYD must be running.
   hosts: lab

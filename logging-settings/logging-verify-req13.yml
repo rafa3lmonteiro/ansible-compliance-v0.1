@@ -1,3 +1,7 @@
+# Playbook to verify if service NTPD must be running.
+# created: Oct/2022
+# Rafael Conte Monteiro
+
 ---
 - name: Service NTPD must be running.
   hosts: lab

@@ -1,3 +1,7 @@
+# Playbook to verify Rsyslog is enabled
+# created: Out/2022
+# Rafael Conte Monteiro
+
 ---
 - name: Ensure Rsyslog is enabled
   hosts: lab

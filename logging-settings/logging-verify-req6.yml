@@ -1,3 +1,7 @@
+# Playbook to verify if exists file tallylog
+# created: Oct/2022
+# Rafael Conte Monteiro
+
 ---
 - name: Must exists file tallylog.
   hosts: lab

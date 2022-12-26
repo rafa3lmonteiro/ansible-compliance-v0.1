@@ -1,3 +1,7 @@
+# Playbook to verify if service CHRONYD must be running.
+# created: Oct/2022
+# Rafael Conte Monteiro
+
 ---
 - name: Service CHRONYD must be running.
   hosts: lab
@@ -18,18 +22,18 @@
         msg: "{{ chronyd_status.stdout.split('\n') }}"
       when: chronyd_status.rc == 0 
 
-    - name: Verify server pool
-      shell: cat /etc/chrony.conf | grep pool 
+    - name: Verify chrony PS
+      shell: ps -elf | grep chrony | head -n 1
       ignore_errors: true
-      register: chronyd_pool_status
+      register: chrony_ps_results
 
-    - name: Printing service status of chronyd_pool
+    - name: Printing service status of chrony PS
       debug:
-        msg: "{{ chronyd_pool_status.stdout.split('\n') }}"
-      when: chronyd_pool_status.rc == 0 
+        msg: "{{ chrony_ps_results.stdout.split('\n') }}"
+      when: chrony_ps_results.rc == 0 
 
     - name: Creating ansible log HCFindings 
-      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.2.yml - {{ inventory_hostname }} - chronyd are not active on the system" >> /var/log/HCFindings.log
+      shell: echo "$(date +%b" "%d" "%T) - Findings -> Logging-IZ.1.2.7.6.yml - {{ inventory_hostname }} - chronyd is not active on the system" >> /var/log/HCFindings.log
       delegate_to: localhost
       when: chronyd_status.rc != 0
 
