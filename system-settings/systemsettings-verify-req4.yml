@@ -1,6 +1,7 @@
 # Playbook to verify if SELinux is installed
 # created: Nov/2022
 # Rafael Conte Monteiro
+
 ---
 - name: Ensure SELinux is installed
   hosts: lab

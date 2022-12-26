@@ -1,6 +1,7 @@
 # Playbook to verify standard login shells for the system users
 # created: Nov/2022
 # Rafael Conte Monteiro
+
 ---
 - name: Ensure auditd service is enabled
   hosts: lab

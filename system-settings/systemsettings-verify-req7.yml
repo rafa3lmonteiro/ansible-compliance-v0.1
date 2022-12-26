@@ -1,6 +1,7 @@
 # Playbook to verify SELinuxtype of Minimum is not used
 # created: Nov/2022
 # Rafael Conte Monteiro
+
 ---
 - name: Ensure SELinuxtype of Minimum is not used
   hosts: lab

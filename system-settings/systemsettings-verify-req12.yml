@@ -1,6 +1,7 @@
 # Playbook to verify standard login shells for the system users
 # created: 10/25/2022
 # Rafael Conte Monteiro
+
 ---
 - name: Verifying standard login shells for the system users 
   hosts: lab

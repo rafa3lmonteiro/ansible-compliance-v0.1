@@ -1,6 +1,7 @@
 # Playbook to verify systems to terminate a session after a period of inactivity
 # created: 10/24/2022
 # Rafael Conte Monteiro
+
 ---
 - name: Set systems to terminate a session after a period of inactivity. 
   hosts: lab

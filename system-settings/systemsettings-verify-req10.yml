@@ -1,6 +1,7 @@
 # Playbook to verify systems to terminate a session after a period of inactivity
 # created: Nov/2022
 # Rafael Conte Monteiro
+
 ---
 - name: Set systems to terminate a session after a period of inactivity in support, script /etc/profile.d/sinit.csh 
   hosts: lab

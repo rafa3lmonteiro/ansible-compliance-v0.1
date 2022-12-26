@@ -1,6 +1,7 @@
 # Playbook to verify if SELinux state is enforcing or permissive, per domain.
 # created: Nov/2022
 # Rafael Conte Monteiro
+
 ---
 - name: Ensure the SELinux state is enforcing or permissive, per domain.
   hosts: lab

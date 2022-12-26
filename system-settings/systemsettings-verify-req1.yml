@@ -1,6 +1,7 @@
 # Playbook to verify the default no access policy in /etc/pam.d/other
 # created: Nov/2022
 # Rafael Conte Monteiro
+
 ---
 - name: Verifying a default no access policy in /etc/pam.d/other
   hosts: lab
