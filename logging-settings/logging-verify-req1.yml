@@ -1,4 +1,4 @@
-# Playbook to verify Rsyslog is enabled
+# Playbook to verify if rsyslog is enabled
 # created: Out/2022
 # Rafael Conte Monteiro
 
