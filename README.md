@@ -11,8 +11,14 @@ In the current version I am writing playbooks to check security compliance requi
 
 # Installation
 
-to be continued...
+in progress..
 
 # Usage
 
-to be continued...
+in progress..
+
+
+
+
+
+# Autor: Rafael Monteiro
