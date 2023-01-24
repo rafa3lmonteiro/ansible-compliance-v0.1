@@ -1,0 +1,22 @@
+---
+- Nome: dados do EC2
+  ec2_metadata_facts:
+- name: instalar o Apache em instâncias redhat ou centos
+  yum: name=httpd state=present
+  when: ansible_os_family == “RedHat”
+- name: instalar o apache em instâncias debian ou ubuntu
+  apt: name=apache2 state=present
+  when: ansible_os_family == “Debian”
+- name: template o arquivo de índice para debian
+  template: src=index.html.j2 dest=/var/www/html/index.html owner=www-data group=www-data mode=0644
+  when: ansible_os_family == “Debian”
+- name: modelo do arquivo de índice para Redhat
+  template: src=index.html.j2 dest=/var/www/html/index.html owner=apache group=apache =mode apache =0644
+  when: ansible_os_family == “RedHat”
+- name: ativar o apache na inicialização e iniciar o serviço para redhat ou centos
+  service: name=httpd enabled=yes state=started
+  when: ansible_os_family == “RedHat” 
+- name: ativar o apache na inicialização e iniciar o serviço para debian ou ubuntu
+  service: name=apache2 enabled=yes state=started
+  when: ansible_os_family == “Debian”
+...
