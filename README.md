@@ -11,7 +11,11 @@ In the current version I am writing playbooks to check security compliance requi
 
 # Installation
 
-in progress..
+$ git clone git@github.com:rafa3lmonteiro/linux-compliance-v0.1.git
+
+![image](https://user-images.githubusercontent.com/42952730/215285915-6262d176-7458-4f9c-b670-9f5be3c1151d.png)
+
+
 
 # Usage
 
