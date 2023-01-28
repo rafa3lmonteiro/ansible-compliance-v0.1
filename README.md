@@ -21,13 +21,14 @@ $ git clone https://github.com/rafa3lmonteiro/linux-compliance-v0.1.git
 # Usage
 
 - Run playbooks with Ansible to check compliance requirements on your systems.
-    example:
+
+example:
 
 ![image](https://user-images.githubusercontent.com/42952730/215286768-445b4f83-7ad0-4dcd-afae-7cc774302cc9.png)
 
 
 
-
+in progress..
 
 
 # Autor: Rafael Monteiro
