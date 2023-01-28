@@ -23,7 +23,8 @@ $ git clone https://github.com/rafa3lmonteiro/linux-compliance-v0.1.git
 - Run playbooks with Ansible to check compliance requirements on your systems.
     example:
 
-![image](https://user-images.githubusercontent.com/42952730/215286423-61d683e0-dcb6-4ef0-8c66-28719afd6652.png)
+![image](https://user-images.githubusercontent.com/42952730/215286768-445b4f83-7ad0-4dcd-afae-7cc774302cc9.png)
+
 
 
 
