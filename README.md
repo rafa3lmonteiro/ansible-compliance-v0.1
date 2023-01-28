@@ -1,4 +1,4 @@
-# Compliance-Ansible
+# Compliance in Linux servers with Ansible
 
 # About the project:
 
