@@ -10,6 +10,7 @@ In the current version I am writing playbooks to check security compliance requi
 
 
 # Installation
+- Download the playbooks from the repository
 
 $ git clone git@github.com:rafa3lmonteiro/linux-compliance-v0.1.git
 
