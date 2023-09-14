@@ -1,0 +1,19 @@
+# Role: para modificar o resolv.conf no padrão Sonepar
+# Data de criação: 12/09/2023
+# Utiliza o template: resolv.conf
+# Versão 0.1
+# Criado por: William Lídio
+---
+- name: Fazer backup do arquivo resolv.conf original
+  copy:
+    src: /etc/resolv.conf
+    dest: /etc/resolv.conf.backup
+    remote_src: yes
+
+- name: Copiar arquivo de template resolv.conf
+  template:
+    src: templates/resolv.conf
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: '0644' # adiciona as permissões -rw-r-r-

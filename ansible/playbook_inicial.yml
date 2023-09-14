@@ -1,0 +1,32 @@
+# Playbook: para instalação completa do servidor no ambiente Sonepar
+# Data de criação: 12/09/2023
+# Utiliza o roles: todas as roles
+# Versão 0.1
+# Criado por: William Lídio
+---
+- name: Instalação e configuração completa dos softwares do servidor
+  hosts: lab
+  become: true
+  gather_facts: no
+  
+  roles:
+    - remove_selinux_firewalld
+    - install_resolv_padrao
+    - install_hostname
+    - install_banner_motdyn_bashrc
+    - install_ipa_client
+    - install_zabbix-agent2
+    - install_nessus
+    - install_carbon
+    - install_graylog_filebeat_rsyslog
+    # - install_rapid7
+
+    # Rodar caso queira validar as instalações anteriores
+    - valida
+
+    # Só rodar as roles abaixo para desinstalar    
+    # - remove_carbon
+    # - remove_ipa_client
+    # - remove_nessus
+    # - remove_selinux_firewalld
+    # - remove_zabbix-agent2

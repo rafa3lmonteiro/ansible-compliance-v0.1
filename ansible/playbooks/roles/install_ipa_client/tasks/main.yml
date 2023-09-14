@@ -1,0 +1,50 @@
+# Role: para instalação completa do IPA Client 
+# Data de criação: 11/09/2023
+# Utiliza o template: script_install_ipa.sh
+# Versão 0.2
+# Criado por: William Lídio
+---
+- name: Atualizar cache do DNF
+  dnf:
+    update_cache: yes
+
+- name: Instalar pacotes necessários
+  dnf:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ipa-client
+    - ipa-client-common
+    - ipa-common
+    - ipa-selinux
+    - sssd-ipa
+
+- name: Baixar script de instalação
+  copy:
+    src: ../../../templates/script_install_ipa.sh 
+    dest: /tmp/script_install_ipa.sh
+    owner: root
+    group: root
+    mode: '0755'
+  register: download_result
+
+- name: Verificar o download do script
+  fail:
+    msg: "Falha ao baixar o script de instalação do IPA"
+  when: download_result.failed
+
+- name: Executar o script de instalação do IPA
+  shell: sh /tmp/script_install_ipa.sh
+  when: download_result
+
+- name: Reiniciar o serviço SSSD
+  service:
+    name: sssd
+    enabled: yes
+    state: restarted
+
+- name: Remover arquivo script_install_ipa.sh
+  file:
+    path: /tmp/script_install_ipa.sh
+    state: absent
+...

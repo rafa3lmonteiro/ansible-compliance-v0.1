@@ -1,0 +1,20 @@
+# Role: para desinstalar o carbon black
+# Data de criação: 05/09/2023
+# Utiliza o template: N/A
+# Criado por: William Lídio
+---
+- name: Parar o serviço Carbon
+  service:
+    name: cbagentd
+    state: stopped
+  ignore_errors: yes  # Ignorar erros se o serviço não estiver em execução
+
+- name: Remover o pacote Carbon usando yum
+  yum:
+    name: cb-psc-sensor.x86_64
+    state: absent
+
+- name: Remover diretório do Carbon 
+  file:
+    path: /mnt/carbon
+    state: absent

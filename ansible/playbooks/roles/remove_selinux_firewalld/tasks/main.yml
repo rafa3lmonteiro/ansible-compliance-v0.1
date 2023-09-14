@@ -1,0 +1,17 @@
+# Role: Para desabilitar SELinux e o Firewalld
+# Data de criação: 04/09/2023
+# Utiliza o template: N/A
+# Criado por: William Lídio
+---
+- name: Desabilitar SELinux no arquivo de configuração
+  lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: 'SELINUX=disabled'
+
+- name: Desabilitar o firewalld do red hat
+  systemd:
+    name: firewalld
+    enabled: no
+    state: stopped
+...

@@ -1,0 +1,33 @@
+# Role: para instalação completa do Rapid 7 
+# Data de criação: 11/09/2023
+# Utiliza o template: agent-install.sh 
+# Versão 0.1
+# Criado por: William Lídio
+---
+- name: Baixar script de instalação
+  copy:
+    src: ../../../templates/agent_installer.sh
+    dest: /mnt/rapid7/agent_installer.sh
+    owner: root
+    group: root
+    mode: '0775'
+
+- name: Verificar se o arquivo agent_installer.sh existe
+  stat:
+    path: /mnt/rapid7/agent_installer.sh
+  register: download_result
+
+- name: Executar o script de instalação do Rapid 7
+  shell: sh /mnt/rapid7/agent_installer.sh install_start --token eu:042fc173-e10d-434f-aae7-b04f67febd2e >> /var/log.txt
+  when: download_result.stat.exists
+
+- name: Reiniciar o serviço Rapid 7 
+  service:
+    name: ir_agent
+    enabled: yes
+    state: restarted
+
+- name: Remover arquivo agent_installer.sh
+  file:
+    path: /mnt/rapid7/agent_installer.sh
+    state: absent
